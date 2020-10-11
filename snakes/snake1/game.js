@@ -1,15 +1,18 @@
+import {
+  SNAKE_SPEED,
+  update as updateSnake,
+  draw as drawSnake,
+} from "./snake.js";
+
 let lastRenderTime = 0;
-const SNAKE_SPEED = 2; // n times per second
+const gameBoard = document.getElementById("game-board");
 
 function main(currentTime) {
-  window.requestAnimationFrame(main);
-  // console.log(new Date()); // ~75 times per minute
+  window.requestAnimationFrame(main); // ~75 times per minute
 
   const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
-  if (secondsSinceLastRender < 1 / SNAKE_SPEED) return;
+  if (secondsSinceLastRender < 1 / SNAKE_SPEED) return; // не много не понял
 
-  console.log("Render");
-  console.log(new Date().getMilliseconds());
   lastRenderTime = currentTime;
 
   update();
@@ -18,6 +21,11 @@ function main(currentTime) {
 
 window.requestAnimationFrame(main);
 
-function update() {}
+function update() {
+  updateSnake();
+}
 
-function draw() {}
+function draw() {
+  gameBoard.innerHTML = "";
+  drawSnake(gameBoard);
+}
