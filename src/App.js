@@ -1,24 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState, useRef } from "react";
+import "./App.css";
 
 function App() {
+  const [value, setValue] = useState(0);
+
+  const [date, setDate] = useState(() => Date.now()); // ?
+  const [date1, setDate1] = useState(Date.now());
+
+  const inc = () => setValue((prev) => prev + 1);
+  const dec = () => setValue((prev) => prev - 1);
+
+  useEffect(() => {
+    if (value < -10) console.log(value);
+  }, [value]);
+
+  const renderCounter = useRef(1);
+  useEffect(() => {
+    renderCounter.current++;
+  });
+
+  // useMemo, useCallback
+
+  // useReducer, useContext, useCustom
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick={inc}>+</button>
+      <h1>Value: {value}</h1>
+      <button onClick={dec}>-</button>
+      <pre>{date}</pre>
+      <pre>{date1}</pre>
+      <p>Render count: {renderCounter.current}</p>
     </div>
   );
 }
