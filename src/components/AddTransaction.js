@@ -1,13 +1,21 @@
 import React, { useState } from "react";
+import { useGlobalContext } from "../context/GlobalState";
 
 export default function AddTransaction() {
   const [text, setText] = useState("");
   const [amount, setAmount] = useState(0);
 
+  const { addTransaction } = useGlobalContext();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    addTransaction({ id: Date.now(), text: text, amount: +amount });
+  };
+
   return (
     <>
       <h3>Add new transaction</h3>
-      <form>
+      <form onSubmit={onSubmit}>
         <div className="form-control">
           <label htmlFor="text">Text</label>
           <input

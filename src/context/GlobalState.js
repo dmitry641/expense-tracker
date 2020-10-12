@@ -1,6 +1,9 @@
 import React, { useReducer, useContext } from "react";
 
-const ACTIONS = { DELETE_TRANSACTION: "DELETE_TRANSACTION" };
+const ACTIONS = {
+  DELETE_TRANSACTION: "DELETE_TRANSACTION",
+  ADD_TRANSACTION: "ADD_TRANSACTION",
+};
 
 const initialState = {
   transactions: [
@@ -26,7 +29,11 @@ const reducer = (state, action) => {
           (elem) => elem.id !== action.payload
         ),
       };
-
+    case ACTIONS.ADD_TRANSACTION:
+      return {
+        ...state,
+        transactions: [action.payload, ...state.transactions],
+      };
     default:
       return state;
   }
@@ -39,9 +46,17 @@ export function GlobalProvider({ children }) {
     dispatch({ type: ACTIONS.DELETE_TRANSACTION, payload: id });
   }
 
+  function addTransaction(transaction) {
+    dispatch({ type: ACTIONS.ADD_TRANSACTION, payload: transaction });
+  }
+
   return (
     <GlobalContext.Provider
-      value={{ transactions: state.transactions, deleteTransaction }}
+      value={{
+        transactions: state.transactions,
+        deleteTransaction,
+        addTransaction,
+      }}
     >
       {children}
     </GlobalContext.Provider>
